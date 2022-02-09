@@ -131,6 +131,7 @@ export const htmlSerializer: HTMLSerializer<React.ReactNode> = function (
         linkUrl
           ? React.createElement(
               "a",
+              // @ts-ignore
               Object.assign({ href: linkUrl }, linkTarget, linkRel),
               img
             )
@@ -181,6 +182,7 @@ export const htmlSerializer: HTMLSerializer<React.ReactNode> = function (
 
     case Elements.span: // Span
       if (content) {
+        // @ts-ignore
         return content.split("\n").reduce((acc, p) => {
           if (acc.length === 0) {
             return [p];
@@ -188,8 +190,10 @@ export const htmlSerializer: HTMLSerializer<React.ReactNode> = function (
             const brIndex = (acc.length + 1) / 2 - 1;
             const br = React.createElement(
               "br",
+              // @ts-ignore
               propsWithUniqueKey({}, brIndex)
             );
+            // @ts-ignore
             return acc.concat([br, p]);
           }
         }, []);
