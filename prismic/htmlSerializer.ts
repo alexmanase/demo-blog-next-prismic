@@ -1,13 +1,19 @@
 import React from "react";
-import { RichText, Elements } from "prismic-reactjs";
+import { Elements, HTMLSerializer } from "prismic-reactjs";
 
 // -- Function to add unique key to props
-const propsWithUniqueKey = function (props, key) {
+const propsWithUniqueKey = function (props: {}, key: string) {
   return Object.assign(props || {}, { key });
 };
 
 // -- HTML Serializer
-export const htmlSerializer = function (type, element, content, children, key) {
+export const htmlSerializer: HTMLSerializer<React.ReactNode> = function (
+  type,
+  element,
+  content,
+  children,
+  key
+) {
   var props = {};
 
   switch (type) {
@@ -106,9 +112,7 @@ export const htmlSerializer = function (type, element, content, children, key) {
       );
 
     case Elements.image: // Image
-      const linkUrl = element.linkTo
-        ? element.linkTo.url || linkResolver(element.linkTo)
-        : null;
+      const linkUrl = element.linkTo ? element.linkTo.url : null;
       const linkTarget =
         element.linkTo && element.linkTo.target
           ? { target: element.linkTo.target }
@@ -158,7 +162,7 @@ export const htmlSerializer = function (type, element, content, children, key) {
       const relAttr = element.data.target ? { rel: "noopener" } : {};
       props = Object.assign(
         {
-          href: element.data.url || linkResolver(element.data),
+          href: element.data.url,
         },
         targetAttr,
         relAttr
