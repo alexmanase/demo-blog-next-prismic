@@ -1,15 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import * as prismic from "@prismicio/client";
+import React from "react";
+import Prismic from "@prismicio/client";
+import { Client } from "../prismic/prismic";
+import Link from "next/link";
 
 export async function getStaticProps() {
-  const endpoint = prismic.getEndpoint("blog-properties-demo");
-  const client = prismic.createClient(endpoint);
-  const blogPosts = await client.getAllByType("blog-post");
+  const { results } = await Client.query(
+    Prismic.Predicates.at("document.type", "blog-post")
+  );
 
   return {
     props: {
-      blogPosts,
+      blogPosts: results,
     },
   };
 }
@@ -23,10 +26,24 @@ const Home: NextPage = ({ blogPosts }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main style={{ padding: "30px" }}>
         <h1>Blog demo</h1>
         {blogPosts.map((post: any) => {
-          return <h2 key={post.id}>{post.data.title[0].text}</h2>;
+          return (
+            <Link href={`/blog/${post.slugs[0]}`} key={post.id}>
+              <a>
+                <div className="card">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={post.data.image.url}
+                    alt={post.data.image.alt}
+                    width="100%"
+                  />
+                  <h2>{post.data.title[0].text}</h2>
+                </div>
+              </a>
+            </Link>
+          );
         })}
       </main>
     </div>

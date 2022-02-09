@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.card {
+  width: 300px;
+  border: 1px solid #ddd;
+  box-shadow: 3px 3px 10px 2px #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
