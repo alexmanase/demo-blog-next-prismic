@@ -3,6 +3,9 @@ import Head from "next/head";
 import React from "react";
 import { Client } from "../../prismic/prismic";
 
+import { RichText } from "prismic-reactjs";
+import { htmlSerializer } from "../../prismic/htmlSerializer";
+
 // const linkResolver = (doc: any) => {
 //   // Pretty URLs for known types
 //   if (doc.type === "blog") return "/post/" + doc.uid;
@@ -28,10 +31,6 @@ export async function getStaticProps(context: any) {
 }
 
 const Home: NextPage = ({ document }: any) => {
-  const Post = document;
-
-  console.log(Post);
-
   return (
     <div>
       <Head>
@@ -41,7 +40,14 @@ const Home: NextPage = ({ document }: any) => {
       </Head>
 
       <main>
-        <h1>{Post?.data.title[0].text}</h1>
+        <h1>{document?.data.title[0].text}</h1>
+
+        {document && (
+          <RichText
+            render={document.data.body[0].primary.text}
+            htmlSerializer={htmlSerializer}
+          />
+        )}
       </main>
     </div>
   );
