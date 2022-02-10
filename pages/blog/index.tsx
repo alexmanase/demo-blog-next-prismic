@@ -5,6 +5,7 @@ import Prismic from "@prismicio/client";
 import { Client } from "../../prismic/prismic";
 import Container from "../../components/Container";
 import Card from "../../components/Card";
+import Layout from "../../layouts/Layout";
 
 export async function getStaticProps() {
   const { results } = await Client.query(
@@ -35,60 +36,35 @@ const Home: NextPage = ({ blogPosts }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="p-4 shadow-md mb-6">
-        <svg
-          className="mx-auto"
-          width="66"
-          height="44"
-          viewBox="0 0 66 44"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M19.2688 21.7112L8.92894 0.0163269H0L14.8037 31.0768L19.2688 21.7112Z"
-            fill="#231F20"
-          />
-          <path
-            d="M39.1576 12.9232L34.6963 22.2888C34.695 22.29 34.695 22.2913 34.6963 22.2938L45.0399 44L49.5013 34.6344C49.5025 34.6332 49.5025 34.6319 49.5013 34.6294L39.1576 12.9232Z"
-            fill="#231F20"
-          />
-          <path
-            d="M57.0708 0.0163269L46.7334 21.7125L51.196 31.0768L65.9997 0.0163269H57.0708Z"
-            fill="#231F20"
-          />
-          <path
-            d="M33.0017 0L16.4971 34.6305L20.9622 43.9974L37.4631 9.36937C37.4643 9.36811 37.4643 9.3656 37.4631 9.36434L33.0017 0Z"
-            fill="#231F20"
-          />
-        </svg>
-      </header>
-      <main>
-        <Container>
-          <h2 className="font-bold text-2xl mb-6">
-            Ipsam ut aut quaerat fuga et quasi quod et saepe.
-          </h2>
-          <div className="grid grid-cols-6 gap-6">
-            {posts.map((post: any, index: number) => {
-              return (
-                <Card
-                  key={`${post.id}-${index}`}
-                  slug={post.uid}
-                  variation={index % 5 === 1 ? "solid" : "default"}
-                  post={{
-                    image: {
-                      url: post.data.image.url,
-                      alt: post.data.image.alt,
-                    },
-                    date: post.data.date,
-                    excerpt: post.data.excerpt ? post.data.excerpt : "",
-                    title: post.data.title[0].text,
-                  }}
-                />
-              );
-            })}
-          </div>
-        </Container>
-      </main>
+      <Layout>
+        <main>
+          <Container>
+            <h2 className="font-bold text-2xl mb-6">
+              Ipsam ut aut quaerat fuga et quasi quod et saepe.
+            </h2>
+            <div className="grid grid-cols-6 gap-6">
+              {posts.map((post: any, index: number) => {
+                return (
+                  <Card
+                    key={`${post.id}-${index}`}
+                    slug={post.uid}
+                    variation={index % 5 === 1 ? "solid" : "default"}
+                    post={{
+                      image: {
+                        url: post.data.image.url,
+                        alt: post.data.image.alt,
+                      },
+                      date: post.data.date,
+                      excerpt: post.data.excerpt ? post.data.excerpt : "",
+                      title: post.data.title[0].text,
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </Container>
+        </main>
+      </Layout>
     </div>
   );
 };
