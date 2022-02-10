@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* blog grid */
+.post:nth-child(3n + 1),
+.post:nth-child(3n + 2),
+.post:nth-child(3n + 3) {
+  grid-column: span 2;
+}
+
+.post:nth-child(5n + 4),
+.post:nth-child(5n + 5) {
+  grid-column: span 3;
+}
+@media only screen and (max-width: 1024px) {
+  .post:nth-child(3n + 1),
+  .post:nth-child(3n + 2),
+  .post:nth-child(3n + 3) {
+    grid-column: span 3;
+  }
+
+  .post:nth-child(5n + 4),
+  .post:nth-child(5n + 5) {
+    grid-column: span 3;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .post:nth-child(3n + 1),
+  .post:nth-child(3n + 2),
+  .post:nth-child(3n + 3) {
+    grid-column: span 6;
+  }
+
+  .post:nth-child(5n + 4),
+  .post:nth-child(5n + 5) {
+    grid-column: span 6;
+  }
+}

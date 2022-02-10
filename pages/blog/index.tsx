@@ -3,9 +3,8 @@ import Head from "next/head";
 import React from "react";
 import Prismic from "@prismicio/client";
 import { Client } from "../../prismic/prismic";
-import Link from "next/link";
 import Container from "../../components/Container";
-import { classNames } from "../../utils/classNames";
+import Card from "../../components/Card";
 
 export async function getStaticProps() {
   const { results } = await Client.query(
@@ -20,7 +19,14 @@ export async function getStaticProps() {
 }
 
 const Home: NextPage = ({ blogPosts }: any) => {
-  console.log(blogPosts);
+  const posts = [
+    ...blogPosts,
+    ...blogPosts,
+    ...blogPosts,
+    ...blogPosts,
+    ...blogPosts,
+    ...blogPosts,
+  ];
   return (
     <div>
       <Head>
@@ -61,40 +67,23 @@ const Home: NextPage = ({ blogPosts }: any) => {
           <h2 className="font-bold text-2xl mb-6">
             Ipsam ut aut quaerat fuga et quasi quod et saepe.
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogPosts.map((post: any) => {
+          <div className="grid grid-cols-6 gap-6">
+            {posts.map((post: any, index: number) => {
               return (
-                <Link href={`/blog/${post.slugs[0]}`} key={post.id} passHref>
-                  <div
-                    style={{
-                      backgroundImage: !post.data.excerpt
-                        ? `url(${post.data.image.url})`
-                        : "",
-                    }}
-                    className={classNames(
-                      "rounded-xl bg-cover min-h-[250px] w-full min-w-[250px] cursor-pointer relative overflow-hidden"
-                    )}
-                  >
-                    <div
-                      className={classNames(
-                        "absolute flex flex-col justify-end p-3 gap-2 inset-0",
-                        post.data.excerpt
-                          ? "bg-gray-100"
-                          : "bg-gradient-to-b from-transparent to-black/50 text-white "
-                      )}
-                    >
-                      <p className="text-xs">
-                        {post.data.date.replace(/-/g, "/")}
-                      </p>
-                      <h2 className="font-bold text-md">
-                        {post.data.title[0].text}
-                      </h2>
-                      {post.data.excerpt && (
-                        <p>{post.data.excerpt.substring(0, 110)}...</p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
+                <Card
+                  key={`${post.id}-${index}`}
+                  slug={post.uid}
+                  variation={index % 5 === 1 ? "solid" : "default"}
+                  post={{
+                    image: {
+                      url: post.data.image.url,
+                      alt: post.data.image.alt,
+                    },
+                    date: post.data.date,
+                    excerpt: post.data.excerpt ? post.data.excerpt : "",
+                    title: post.data.title[0].text,
+                  }}
+                />
               );
             })}
           </div>

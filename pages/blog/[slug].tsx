@@ -72,12 +72,11 @@ const Home: NextPage = ({ document }: any) => {
       </header>
       <main>
         <Container>
-          <div className="prose">
+          <div className="prose prose-img:rounded-xl max-w-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={document?.data.image.url}
               alt={document?.data.image.alt}
-              className="rounded-md"
             />
             <h1>{document?.data.title[0].text}</h1>
 
