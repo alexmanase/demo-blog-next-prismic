@@ -5,6 +5,7 @@ import Prismic from "@prismicio/client";
 import { Client } from "../../prismic/prismic";
 import Link from "next/link";
 import Container from "../../components/Container";
+import { classNames } from "../../utils/classNames";
 
 export async function getStaticProps() {
   const { results } = await Client.query(
@@ -19,6 +20,7 @@ export async function getStaticProps() {
 }
 
 const Home: NextPage = ({ blogPosts }: any) => {
+  console.log(blogPosts);
   return (
     <div>
       <Head>
@@ -28,28 +30,70 @@ const Home: NextPage = ({ blogPosts }: any) => {
       </Head>
 
       <header className="p-4 shadow-md mb-6">
-        <h1 className="text-center font-bold text-2xl">Welhome Blog</h1>
+        <svg
+          className="mx-auto"
+          width="66"
+          height="44"
+          viewBox="0 0 66 44"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19.2688 21.7112L8.92894 0.0163269H0L14.8037 31.0768L19.2688 21.7112Z"
+            fill="#231F20"
+          />
+          <path
+            d="M39.1576 12.9232L34.6963 22.2888C34.695 22.29 34.695 22.2913 34.6963 22.2938L45.0399 44L49.5013 34.6344C49.5025 34.6332 49.5025 34.6319 49.5013 34.6294L39.1576 12.9232Z"
+            fill="#231F20"
+          />
+          <path
+            d="M57.0708 0.0163269L46.7334 21.7125L51.196 31.0768L65.9997 0.0163269H57.0708Z"
+            fill="#231F20"
+          />
+          <path
+            d="M33.0017 0L16.4971 34.6305L20.9622 43.9974L37.4631 9.36937C37.4643 9.36811 37.4643 9.3656 37.4631 9.36434L33.0017 0Z"
+            fill="#231F20"
+          />
+        </svg>
       </header>
       <main>
         <Container>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="font-bold text-2xl mb-6">
+            Ipsam ut aut quaerat fuga et quasi quod et saepe.
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogPosts.map((post: any) => {
               return (
-                <Link href={`/blog/${post.slugs[0]}`} key={post.id}>
-                  <a>
-                    <div className="rounded-lg relative overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.data.image.url}
-                        alt={post.data.image.alt}
-                        width="100%"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50" />
-                      <h2 className="absolute bottom-0 w-full p-3 text-white font-bold text-md">
+                <Link href={`/blog/${post.slugs[0]}`} key={post.id} passHref>
+                  <div
+                    style={{
+                      backgroundImage: !post.data.excerpt
+                        ? `url(${post.data.image.url})`
+                        : "",
+                    }}
+                    className={classNames(
+                      "rounded-xl bg-cover min-h-[250px] w-full min-w-[250px] cursor-pointer relative overflow-hidden"
+                    )}
+                  >
+                    <div
+                      className={classNames(
+                        "absolute flex flex-col justify-end p-3 gap-2 inset-0",
+                        post.data.excerpt
+                          ? "bg-gray-100"
+                          : "bg-gradient-to-b from-transparent to-black/50 text-white "
+                      )}
+                    >
+                      <p className="text-xs">
+                        {post.data.date.replace(/-/g, "/")}
+                      </p>
+                      <h2 className="font-bold text-md">
                         {post.data.title[0].text}
                       </h2>
+                      {post.data.excerpt && (
+                        <p>{post.data.excerpt.substring(0, 110)}...</p>
+                      )}
                     </div>
-                  </a>
+                  </div>
                 </Link>
               );
             })}
