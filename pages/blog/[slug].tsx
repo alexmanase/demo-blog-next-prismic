@@ -7,6 +7,7 @@ import Prismic from "@prismicio/client";
 import { RichText } from "prismic-reactjs";
 import { htmlSerializer } from "../../prismic/htmlSerializer";
 import BlogPostLayout from "../../layouts/BlogPostLayout";
+import Image from "next/image";
 
 export async function getStaticPaths() {
   return {
@@ -29,6 +30,13 @@ export async function getStaticProps(context: any) {
 }
 
 const Home: NextPage = ({ document, blogPosts }: any) => {
+  if (!document) {
+    return (
+      <BlogPostLayout posts={[]}>
+        <div>loading...</div>
+      </BlogPostLayout>
+    );
+  }
   return (
     <div>
       <Head>
@@ -40,19 +48,23 @@ const Home: NextPage = ({ document, blogPosts }: any) => {
       <BlogPostLayout posts={blogPosts}>
         <main>
           <div className="prose prose-sm lg:prose-base prose-img:rounded-xl max-w-none">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={document?.data.image.url}
-              alt={document?.data.image.alt}
+            <div className="mb-6 rounded-3xl shadow-lg overflow-hidden">
+              {document && document.data.image && (
+                <Image
+                  priority
+                  src={document.data.image.url}
+                  alt={document.data.image.alt}
+                  layout="responsive"
+                  width={7}
+                  height={4}
+                />
+              )}
+            </div>
+            <h1>{document.data.title[0].text}</h1>
+            <RichText
+              render={document.data.body[0].primary.text}
+              htmlSerializer={htmlSerializer}
             />
-            <h1>{document?.data.title[0].text}</h1>
-
-            {document && (
-              <RichText
-                render={document.data.body[0].primary.text}
-                htmlSerializer={htmlSerializer}
-              />
-            )}
           </div>
         </main>
       </BlogPostLayout>
