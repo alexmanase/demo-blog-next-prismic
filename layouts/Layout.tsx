@@ -39,11 +39,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Breadcrumbs
           labelsToUppercase
           rootLabel="Acasa"
-          activeItemClassName="text-black text-opacity-50 pointer-events-none"
-          listClassName="flex gap-2 items-center"
+          activeItemClassName="text-black text-opacity-50 pointer-events-none truncate"
+          listClassName="flex min-w-0 gap-2 items-center"
           inactiveItemClassName="flex gap-2 after:content-['>']"
           transformLabel={(title) => (
-            <div className="flex-shrink-0">
+            <div className="truncate">
               {`${title[0].toUpperCase()}${title.slice(1)}`.replace(/-/g, " ")}
             </div>
           )}

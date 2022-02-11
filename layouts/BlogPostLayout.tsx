@@ -13,9 +13,9 @@ export default function BlogPostLayout({
   return (
     <Layout>
       <Container>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="lg:grid grid-cols-3 gap-6">
           <div className="col-span-2">{children}</div>
-          <div className="col-span-1">
+          <div className="col-span-1 mt-10 lg:mt-0">
             <h3 className="font-bold text-xl">Te-ar putea interesa si..</h3>
             <div className="flex flex-col gap-3 mt-3">
               {posts?.map((post: any) => {

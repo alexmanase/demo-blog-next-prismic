@@ -39,7 +39,7 @@ const Home: NextPage = ({ document, blogPosts }: any) => {
 
       <BlogPostLayout posts={blogPosts}>
         <main>
-          <div className="prose prose-img:rounded-xl max-w-none">
+          <div className="prose prose-sm lg:prose-base prose-img:rounded-xl max-w-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={document?.data.image.url}
